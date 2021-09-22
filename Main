@@ -1,0 +1,116 @@
+import pyautogui as pag
+import keyboard
+import time
+import os
+import random
+
+def cls():
+    os.system("cls")
+
+def autoimg():
+    cls()
+    img=pag.prompt(title="이미지 클릭",text="이미지 확장명 포함")
+    print("Home[버튼]:시작 | End[버튼]:정지 | PgUp[버튼]:나가기")
+    while True:
+        if keyboard.is_pressed('PgUp'):
+            break
+        if keyboard.is_pressed('Home'):
+            while True:
+                p=pag.locateCenterOnScreen(img)
+                if p!=None:
+                    pag.click(p)
+                    time.sleep(0.001)
+                if keyboard.is_pressed('End'):
+                    break
+
+def autoclick():
+    cls()
+    print("오토 마우스")
+    print("Home[버튼]:시작 | End[버튼]:정지 | PgUp[버튼]:나가기")
+    while True:
+        if keyboard.is_pressed('PgUp'):
+            break
+        if keyboard.is_pressed('Home'):
+            while True:
+                pag.click()
+                time.sleep(0.001)
+                if keyboard.is_pressed('End'):
+                    break
+
+def dobe():
+    cls()
+    txt=pag.prompt(title="도배기",text="도배할 문장 입력")
+    print("Home[버튼]:시작 | End[버튼]:정지 | PgUp[버튼]:나가기")
+    while True:
+        if keyboard.is_pressed('PgUp'):
+            break
+        if keyboard.is_pressed('Home'):
+            while True:
+                pag.typewrite(txt)
+                time.sleep(0.001)
+                pag.press("Enter")
+                if keyboard.is_pressed('End'):
+                    break
+
+def autoRand():
+    pag.alert(text="범위 클릭커\n0 미만의 실수또는 정수 금지",button="Next")
+    delayMin=pag.prompt(text="마우스 클릭 딜레이 범위(추천:1000~1)\n[1=0.001]\n\n최소 값")
+    delayMin=int(delayMin)
+    delayMax=pag.prompt(text="마우스 클릭 딜레이 범위(추천:1000~1)\n[1=0.001]\n\n최대 값")
+    delayMax=int(delayMax)
+    cMin=pag.prompt(text="마우스 클릭 범위\n\n최소 값")
+    cMin=int(cMin)
+    cMax=pag.prompt(text="마우스 클릭 범위\n\n최소 값")
+    cMax=int(cMax)
+    print("Home[버튼]:시작 | End[버튼]:정지 | PgUp[버튼]:나가기")
+    while True:
+        if keyboard.is_pressed('PgUp'):
+            break
+        if keyboard.is_pressed('Home'):
+            while True:
+                if keyboard.is_pressed('End'):
+                    break
+                delayR=float(random.randint(delayMin,delayMax))*0.001
+                cRx=random.randint(cMin,cMax)
+                cRy=random.randint(cMin,cMax)
+                pm=random.randint(0,1)
+                pos=list(pag.position())
+                if pm==0:
+                    cRangex=pos[0]-cRx
+                elif pm==1:
+                    cRangex=pos[0]+cRx
+                pm=random.randint(0,1)
+                if pm==0:
+                    cRangey=pos[1]-cRy
+                elif pm==1:
+                    cRangey=pos[1]+cRy
+
+                pag.moveTo(cRangex,cRangey,delayR)
+                pag.click()
+                if keyboard.is_pressed('End'):
+                    break
+
+def intro():
+    print("┌────────────────────────┐")
+    print("│     Made By Terry      │")
+    print("│        Python          │")
+    print("│   Since 2020-04-12     │")
+    print("└────────────────────────┘")
+    time.sleep(1)
+
+def start():
+    while True:
+        cls()
+        ch=pag.confirm(title="Auto It 2.0",text="Auto It!",buttons=["이미지 클릭","오토 마우스","도배기","범위 클릭"])
+        if ch=='이미지 클릭':
+            autoimg()
+        if ch=='오토 마우스':
+            autoclick()
+        if ch=='도배기':
+            dobe()
+        if ch=='범위 클릭':
+            autoRand()
+
+intro()
+start()
+pag.moveTo()
